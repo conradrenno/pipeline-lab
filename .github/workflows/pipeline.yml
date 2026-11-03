@@ -1,1 +1,47 @@
-name: "Estrutura de direto"
+name: "Estrutura de diretorios e arquivos do projeto"
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+env:
+  NODE_VERSION: "18"
+
+jobs:
+  demonstrando_estrutura:
+    name: "Demonstrando a estrutura do projeto"
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout do Codigo
+        uses: actions/checkout@v4
+
+      - name: Mostrar Estrutura .github/workflows
+        run: |
+          echo " == ESTRUTURA DE DIRETORIOS E ARQUIVOS .github/workflows == "
+          ls -la .github/workflows
+          echo ""
+          echo " Total de workflows: $(ls -1 .github/workflows | wc -l) "
+
+      - name: Elementos obrigatórios do workflow
+        run: |
+          echo " == ELEMENTOS OBRIGATÓRIOS DO WORKFLOW == "
+          echo " 1. Nome do workflow: ${{ github.workflow }}"
+          echo " 2. on: Evento que disparou o workflow: ${{ github.event_name }}"
+          echo " 3. jobs: Define os trabalhos que serão executados no workflow"
+          echo " 4. runs-on: Define o ambiente de execução do trabalho"
+          echo " 5. steps: Define as etapas que serão executadas no trabalho"
+          echo " 6. Branch que disparou o workflow: ${{ github.ref_name }}"
+          echo " 7. SHA do commit que disparou o workflow: ${{ github.sha }}"
+
+      - name: Variaveis e contexto
+        run: |
+          echo " == VARIAVEIS E CONTEXTO == "
+          echo " 1. env: Variaveis de ambiente definidas no workflow: "
+          echo "    NODE_VERSION: ${{ env.NODE_VERSION }}"
+          echo " 2. Contexto do github: "
+          echo "    github.workflow: ${{ github.workflow }}"
+          echo "    github.event_name: ${{ github.event_name }}"
+          echo "    github.ref_name: ${{ github.ref_name }}"
+          echo "    github.sha: ${{ github.sha }}"
