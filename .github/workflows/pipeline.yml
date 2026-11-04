@@ -2,8 +2,28 @@ name: "Estrutura de diretorios e arquivos do projeto"
 
 on:
   push:
-    branches: [main]
+    branches:
+      - main
+      - develop
+      - "release/**"
+      - "!feature/experimental"
+    paths:
+      - "src/**"
+      - "package*.json"
+    paths-ignore:
+      - "docs/**"
+      - "tests/**"
+      - "**.md"
+
+  schedule:
+    - cron: "0 0 * * 0" # Executa todo domingo à meia-noite
+
   workflow_dispatch:
+    inputs:
+      run_tests:
+        description: "Execute tests"
+        type: boolean
+        default: true
 
 env:
   NODE_VERSION: "18"
