@@ -7,9 +7,6 @@ on:
       - develop
       - "release/**"
       - "!feature/experimental"
-    paths:
-      - "src/**"
-      - "package*.json"
     paths-ignore:
       - "docs/**"
       - "tests/**"
