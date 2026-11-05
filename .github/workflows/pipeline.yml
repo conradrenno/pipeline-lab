@@ -1,42 +1,30 @@
 name: "Lab 08 - Estrutura de Diretórios e Arquivos"
 
 on:
-  push:
-    branches: [main]
+  schedule:
+    #Executa as 21:55 (UTC) - Horário Brasília + 3 horas - todos os dias
+    - cron: "55 00 * * *"
   workflow_dispatch:
 
-env:
-  NODE_VERSION: "20.5.0"
-
 jobs:
-  demonstrar-estrutura:
-    name: "Demonstrar Estrutura Básica"
+  schedule-job:
     runs-on: ubuntu-latest
 
     steps:
       - name: Checkout do Repositório
         uses: actions/checkout@v4
 
-      - name: Mostrar estrutura .github/workflows
+      - name: Informações do Schedule
         run: |
-          echo "=== ESTRUTURA DO DIRETÓRIO .github/workflows ==="
-          ls -la .github/workflows/
-          echo ""
-          echo "Total de workflows: $(ls -1 .github/workflows/*.y*ml 2>/dev/null | wc -l)"
+          echo "Workflow disparado por Schedule"
+          echo "Data atual: $(date)"
+          echo "Hora UTC: $(date -u)"
+          echo "Timezone: $(date +%Z)"
 
-      - name: Elementos obrigatórios do workflow
+      - name: Relatório Diário Automatizado
         run: |
-          echo "=== ELEMENTOS OBRIGATÓRIOS DO WORKFLOW ==="
-          echo "1. name: Nome do workflow"
-          echo "2. on: Eventos que disparam o workflow"
-          echo "3. jobs: Conjunto de trabalhos a serem executados"
-          echo "4. runs-on: Ambiente de execução do trabalho"
-          echo "5. steps: Passos a serem executados dentro do trabalho"
-
-      - name: Variáveis e contextos
-        run: |
-          echo "=== VARIÁVEIS E CONTEXTOS ==="
-          echo "Variável env: ${{env.NODE_VERSION}}"
-          echo "Repositório: ${{github.repository}}"
-          echo "Branch: ${{github.ref_name}}"
-          echo "Actor: ${{github.actor}}"
+          echo "=== RELATÓRIO DIÁRIO AUTOMATIZADO ==="
+          echo "==============================================================="
+          echo "Total de commits: $(git rev-list --all --count)"
+          echo "Contribuidores únicos: $(git shortlog -sn | wc -l)"
+          echo "Último commit: $(git log -1 --pretty=format:'%h - %s (%an, %ar)')"
