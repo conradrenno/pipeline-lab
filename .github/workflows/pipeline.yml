@@ -1,19 +1,13 @@
-name: "Demonstração de variáveis de ambiente"
+name: "Demo GitHub Secrets"
 
 on:
   push:
     branches: [main]
   workflow_dispatch:
 
-# Variáveis globais do workflow
-env:
-  WORKFLOW_VAR: "Valor global do workflow"
-  AMBIENTE: "Desenvolvimento"
-  VERSAO_APP: "1.0.0"
-
 jobs:
   #Job 1: Análise de código
-  demonstracao-variaveis:
+  demonstracao-secrets:
     runs-on: ubuntu-latest
 
     env:
@@ -24,16 +18,28 @@ jobs:
     - name: Checkout código
       uses: actions/checkout@v4
 
-    - name: Exibir variáveis do workflow
+    # Step 2: Demonstrar uso de secrets em variáveis de ambiente
+    - name: Configurar credenciais da API
+      env:
+        API_KEY: ${{ secrets.API_KEY }}
+        API_URL: ${{ secrets.API_URL }}
       run: |
-        echo "Variável do workflow: ${{env.WORKFLOW_VAR}}"
-        echo "Variável de ambiente: ${{env.AMBIENTE}}"
-        echo "Variável de usuário: ${{env.VERSAO_APP}}"
+        echo "=== Configuração de Credenciais da API ==="
+        echo "URL da API: $API_URL"
+        echo "Chave da API: ${API_KEY:+SIM}"
 
-    - name: Exibir variáveis do job
+    - name: Conectar com DB
+      env:
+        DB_HOST: ${{ secrets.DB_HOST }}
+        DB_USER: ${{ secrets.DB_USER }}
+        DB_PASSWORD: ${{ secrets.DB_PASSWORD }}
+        DB_PORT: ${{ secrets.DB_PORT }}
       run: |
-        echo "Variável do job: ${{env.JOB_VAR}}"
-        echo "Variável de usuário: ${{env.USUARIO}}"
+        echo "=== Conexão com o Banco de Dados ==="
+        echo "Host: $DB_HOST"
+        echo "Port: $DB_PORT"
+        echo "User: $DB_USER"
+        echo "Password: $DB_PASSWORD"
 
     - name: Exibir variáveis do step
       env:
