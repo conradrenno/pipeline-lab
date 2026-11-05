@@ -1,30 +1,76 @@
 name: "Lab 08 - Estrutura de Diretórios e Arquivos"
 
 on:
-  schedule:
-    #Executa as 21:55 (UTC) - Horário Brasília + 3 horas - todos os dias
-    - cron: '37 02 * * *'
+  push:
+    branches: [main]
   workflow_dispatch:
 
 jobs:
-  schedule-job:
+  #Job 1: Análise de código
+  code-analysis:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout do Repositório
-        uses: actions/checkout@v4
+    - name: Checkout código
+      uses: actions/checkout@v4
 
-      - name: Informações do Schedule
-        run: |
-          echo "Workflow disparado por Schedule"
-          echo "Data atual: $(date)"
-          echo "Hora UTC: $(date -u)"
-          echo "Timezone: $(date +%Z)"
+    - name: Análise de sintaxe
+      run: |
+        echo "Analisando sintaxe do código..."
+        sleep 3
+        echo "Análise de sintaxe concluída com sucesso!"
 
-      - name: Relatório Diário Automatizado
-        run: |
-          echo "=== RELATÓRIO DIÁRIO AUTOMATIZADO ==="
-          echo "==============================================================="
-          echo "Total de commits: $(git rev-list --all --count)"
-          echo "Contribuidores únicos: $(git shortlog -sn | wc -l)"
-          echo "Último commit: $(git log -1 --pretty=format:'%h - %s (%an, %ar)')"
+    - name: Verificar padrões de código
+      run: |
+        echo "Verificando padrões de código..."
+        sleep 2
+        echo "Verificação de padrões concluída com sucesso!"
+
+  #Job 2: Testes unitários
+  unit-tests:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout código
+      uses: actions/checkout@v4
+
+    - name: Configurar ambiente de teste
+      run: |
+        echo "Configurando ambiente de teste..."
+        sleep 2
+        echo "Ambiente de teste configurado com sucesso!"
+
+    - name: Gerar relatórios de cobertura de teste
+      run: |
+        echo "Gerando relatórios de cobertura de teste..."
+        sleep 2
+        echo "Relatórios de cobertura de teste gerados com sucesso!"
+
+  #Job 3: Build da aplicação
+  build-application:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout código
+      uses: actions/checkout@v4
+
+    - name: Compilar aplicação
+      run: |
+        echo "Compilando aplicação..."
+        sleep 5
+        echo "Aplicação compilada com sucesso!"
+
+    - name: Gerar artefatos de build
+      run: |
+        echo "Gerando artefatos de build..."
+        mkdir -p build
+        echo "Arquivo de build 1 gerado em $(date)" > build/app.jar
+        sleep 3
+        echo "Artefatos de build gerados com sucesso!"
+
+    - name: Publicar artefatos
+      uses: actions/upload-artifact@v3
+      with:
+        name: build-artifacts
+        path: build/
+      
