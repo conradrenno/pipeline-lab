@@ -3,7 +3,7 @@ name: "Lab 08 - Estrutura de Diretórios e Arquivos"
 on:
   schedule:
     #Executa as 21:55 (UTC) - Horário Brasília + 3 horas - todos os dias
-    - cron: "55 00 * * *"
+    - cron: "55 23 * * *"
   workflow_dispatch:
 
 jobs:
