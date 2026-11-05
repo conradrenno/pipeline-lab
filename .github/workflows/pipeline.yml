@@ -1,76 +1,45 @@
-name: "Lab 08 - Estrutura de Diretórios e Arquivos"
+name: "Demonstração de variáveis de ambiente"
 
 on:
   push:
     branches: [main]
   workflow_dispatch:
 
+# Variáveis globais do workflow
+env:
+  WORKFLOW_VAR: "Valor global do workflow"
+  AMBIENTE: "Desenvolvimento"
+  VERSAO_APP: "1.0.0"
+
 jobs:
   #Job 1: Análise de código
-  code-analysis:
+  demonstracao-variaveis:
     runs-on: ubuntu-latest
+
+    env:
+      JOB_VAR: "Valor específico do job"
+      USUARIO: "Desenvolvedor"
 
     steps:
     - name: Checkout código
       uses: actions/checkout@v4
 
-    - name: Análise de sintaxe
+    - name: Exibir variáveis do workflow
       run: |
-        echo "Analisando sintaxe do código..."
-        sleep 3
-        echo "Análise de sintaxe concluída com sucesso!"
+        echo "Variável do workflow: ${{env.WORKFLOW_VAR}}"
+        echo "Variável de ambiente: ${{env.AMBIENTE}}"
+        echo "Variável de usuário: ${{env.VERSAO_APP}}"
 
-    - name: Verificar padrões de código
+    - name: Exibir variáveis do job
       run: |
-        echo "Verificando padrões de código..."
-        sleep 2
-        echo "Verificação de padrões concluída com sucesso!"
+        echo "Variável do job: ${{env.JOB_VAR}}"
+        echo "Variável de usuário: ${{env.USUARIO}}"
 
-  #Job 2: Testes unitários
-  unit-tests:
-    runs-on: ubuntu-latest
-
-    steps:
-    - name: Checkout código
-      uses: actions/checkout@v4
-
-    - name: Configurar ambiente de teste
+    - name: Exibir variáveis do step
+      env:
+        STEP_VAR: "Valor específico do step"
+        MENSAGEM: "Executando step de demonstração"
       run: |
-        echo "Configurando ambiente de teste..."
-        sleep 2
-        echo "Ambiente de teste configurado com sucesso!"
-
-    - name: Gerar relatórios de cobertura de teste
-      run: |
-        echo "Gerando relatórios de cobertura de teste..."
-        sleep 2
-        echo "Relatórios de cobertura de teste gerados com sucesso!"
-
-  #Job 3: Build da aplicação
-  build-application:
-    runs-on: ubuntu-latest
-
-    steps:
-    - name: Checkout código
-      uses: actions/checkout@v4
-
-    - name: Compilar aplicação
-      run: |
-        echo "Compilando aplicação..."
-        sleep 5
-        echo "Aplicação compilada com sucesso!"
-
-    - name: Gerar artefatos de build
-      run: |
-        echo "Gerando artefatos de build..."
-        mkdir -p build
-        echo "Arquivo de build 1 gerado em $(date)" > build/app.jar
-        sleep 3
-        echo "Artefatos de build gerados com sucesso!"
-
-    - name: Publicar artefatos
-      uses: actions/upload-artifact@v4
-      with:
-        name: build-artifacts
-        path: build/
-      
+        echo "=== Variáveis do Step ==="
+        echo "Variável do step: ${{env.STEP_VAR}}"
+        echo "Mensagem do step: ${{env.MENSAGEM}}"
